@@ -11,16 +11,24 @@ Stable tag: .5
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Wordpress plugin to enable WP users to live stream using the Livepeer API 
+Wordpress plugin to enable users to live stream using the Livepeer API 
 
 == Description ==
 
-LivePeer provides an API that allows anyone in the world to go live, using a network of idle Resources in a marketplace that provides a cost effective way for video to be transcoded. This plugin allows anyone with a Livepeer account to enter in their API credentials and be able to use a tool such as OBS to go live on their own Wordpress website. There is a free tier of LivePeer, but be aware you may incur some costs to broadcast your stream! We hope this is helpful for you.
+LivePeer provides an API that allows anyone in the world to go live, using a network of idle Resources in a marketplace that provides a cost effective way for video to be transcoded. This plugin allows anyone with a Livepeer account to enter in their API credentials and be able to use a tool such as OBS to go live on their own Wordpress website by dropping in a shortcode. There is a free tier of LivePeer, but be aware you may incur some costs to broadcast your stream! We hope this is helpful for you. 
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+How can I signup for a LivePeer account?
 
+How do I change configurations and uttilize the plugin?
+
+1. Go to your wordpress admin page
+2. Click on LivePeer section:
+3. Input API Key
+4. Input a 16 x 9 image placeholder for when your livestream is idle
+5. Copy and Paste generated shortcode into appropriate page or post.
+6. Use OBS to go live
 An answer to that question.
 
 
