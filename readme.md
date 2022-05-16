@@ -50,6 +50,6 @@ Create an issue, and or submit a pull request!
 
 GPLv2
 
-**Free Software, Hell Yeah!**
+**Free Software,Yeah!**
 
 
