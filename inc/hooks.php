@@ -1,8 +1,8 @@
 <?php
 
-add_action('init', 'custom_rewrite_tag', 10, 0);
+add_action('init', 'livepeer_rewrite_tag', 10, 0);
 
-function custom_rewrite_tag() {
+function livepeer_rewrite_tag() {
 
   add_rewrite_tag('%channel_id%', '([^/]+)/?$');
 }
@@ -100,7 +100,7 @@ add_action('wp_enqueue_scripts', function(){
 add_action('admin_enqueue_scripts', 'livepeer_event_datepicker');
 function livepeer_event_datepicker(){
   global $post;
-  if( $post->post_type == 'livepeer-events' ){
+  if( is_object($post) && $post->post_type == 'livepeer-events' ){
 
     wp_enqueue_script( 'jquery-ui-datepicker-init',
       plugins_url( 'jquery-ui-datepicker-init.js', __FILE__ ),
@@ -125,18 +125,18 @@ function livepeer_event_datepicker(){
 }
 
 // PAGE META
-add_action('add_meta_boxes', 'add_event_meta');
-function add_event_meta()
+add_action('add_meta_boxes', 'livepeer_add_event_meta');
+function livepeer_add_event_meta()
 {
   add_meta_box(
       'livepeer_event_date', // $id
       'Event Date', // $title
-      'display_date_picker', // $callback
+      'livepeer_display_date_picker', // $callback
       array('livepeer-events'), // $page
       'normal', // $context
       'high'); // $priority
 }
-function display_date_picker($post){
+function livepeer_display_date_picker($post){
     $options = get_post_meta($post->ID, '_livepeer_datepicker', true); 
     ?>
       <p>Use the Shortcode <strong>[livepeer_event_date]</strong> anywhere in your post or page builder to display the event date on your flyer.</p>
@@ -152,8 +152,8 @@ function display_date_picker($post){
     <?php
 }
 
-add_action( 'save_post', 'wporg_save_postdata' );
-function wporg_save_postdata( $post_id ) {
+add_action( 'save_post', 'livepeer_save_postdata' );
+function livepeer_save_postdata( $post_id ) {
     // HERO BANNER
     if ( array_key_exists( 'livepeer_datepicker', $_POST ) ) 
         update_post_meta($post_id, '_livepeer_datepicker', $_POST['livepeer_datepicker'] );

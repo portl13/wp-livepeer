@@ -254,7 +254,7 @@
                 <th>Stream Recording</th>
                 <td>
                   <label class="switch">
-                    <input type="checkbox" name="livepeer_stream_recording" <?php echo $options['livepeer_stream_recording'] ? 'checked' : '';?>>
+                    <input type="checkbox" name="livepeer_stream_recording" <?php echo isset($options['livepeer_stream_recording']) && $options['livepeer_stream_recording'] ? 'checked' : '';?>>
                     <span class="slider round"></span>
                   </label>
                 </td>
