@@ -135,7 +135,7 @@
     <tbody>
       <tr>
         <td style="text-align: right;">
-          <input type="submit" name="publish" value="Save Options" class="button" />
+          <input type="submit" name="publish" value="Save Options" class="button" /> <a href="#" id="delete-stream" class="button">Delete</a>
         </td>
       </tr>
     </tbody>
@@ -223,7 +223,18 @@
                 <label for="input-text">Livepeer Stream Name</label>
               </th>
               <td>
-                <input type="text" name="livepeer_stream_name" placeholder="..."  value="<?php echo isset($options['livepeer_stream_name']) ? $options['livepeer_stream_name'] : '';?>"><br />
+                <?php echo isset($global_stream_config->name) && strlen($global_stream_config->name) ? $global_stream_config->name : ''; ?>
+
+                <input 
+                <?php if( isset($global_stream_config->name) && strlen($global_stream_config->name) ) : ?>
+                type="hidden"
+                <?php else: ?>
+                type="text" 
+                <?php endif;?>
+                name="livepeer_stream_name" 
+                placeholder="..."  
+                value="<?php echo isset($global_stream_config->name) ? $global_stream_config->name : '';?>"
+                ><br />
               </td>
             </tr>
             <?php if( $global_stream_config ):?>
@@ -268,7 +279,7 @@
                   <label for="input-text">Playback URL</label>
                 </th>
                 <td>
-                  <a target="_blank" href="<?php echo site_url() .'/channel/'.sanitize_title($options['livepeer_stream_name']);?>/"><?php echo site_url() .'/channel/'.sanitize_title($options['livepeer_stream_name']);?>/</a>
+                  <a target="_blank" href="<?php echo site_url() .'/channel/'.sanitize_title($global_stream_config->name);?>/"><?php echo site_url() .'/channel/'.sanitize_title($global_stream_config->name);?>/</a>
                 </td>
               </tr>
 
@@ -395,4 +406,19 @@
         console.log("Stream error.", err.message);
       });
     };
+</script>
+<script>
+  jQuery(document).ready(function($){
+    $('#delete-stream').on('click', function(){
+      $.ajax({
+        url : '<?php echo admin_url('admin-ajax.php')?>',
+        data : {
+          action: 'livepeer_delete_stream'
+        },
+        success: function(d){
+          window.location.reload();
+        }
+      })
+    })
+  })
 </script>

@@ -42,6 +42,11 @@ An answer to that question.
 
 == Changelog ==
 
+= 1.2.1: October 25, 2022
+* bug fixes
+* flush permalinks after stream create
+* added delete option
+
 = 1.1.1: October 24, 2022
 * bug fixes
 * plugin is single stream only

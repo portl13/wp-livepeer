@@ -32,18 +32,10 @@ function livepeerwp_player_shortcode( $atts = array(), $content = '' ) {
   ), $atts, 'livepeer_player' );
 
 
-  global $post;
-  // TODO
-  // This is psuedo for featured image on event page
-  //$image = wp_get_attachment_image_url();
-
-  
-  //$user_meta = get_user_meta($user_id, '_stream_cofig',true);
-  $global_stream_config = get_option('_stream_config');
   $stream_created = livepeer_portl_get_or_create_stream();
   $options = get_option('livepeer_wp_options');
-  ob_start();
 
+  ob_start();
   include dirname(__DIR__).'/partial/player.php';
   return ob_get_clean();
 

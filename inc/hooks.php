@@ -18,7 +18,7 @@ add_action( 'init',  function() {
 
     $options = get_option('livepeer_wp_options');
 
-    add_rewrite_rule( '^channel/'.sanitize_title($options['livepeer_stream_name']), 'index.php?pagename=player&channel_id='.$global_stream_config->playbackId, 'top' );
+    add_rewrite_rule( '^channel/'.sanitize_title($global_stream_config->name), 'index.php?pagename=player&channel_id='.$global_stream_config->playbackId, 'top' );
 });
 
 add_filter('query_vars', function($vars) {
@@ -133,9 +133,13 @@ function livepeer_event_datepicker(){
 }
 
 // PAGE META
+
+
+
 add_action('add_meta_boxes', 'livepeer_add_event_meta');
 function livepeer_add_event_meta()
 {
+
   add_meta_box(
       'livepeer_event_date', // $id
       'Event Date', // $title
@@ -160,10 +164,23 @@ function livepeer_display_date_picker($post){
     <?php
 }
 
+
+add_action('edit_form_after_title', function() {
+  global $post;
+  if( $post->post_type == 'livepeer-events' )
+  ?><p style="font-size: 1.3em; padding: 4px 8px; border: 1px solid #444; background-color: #e1e1e1; border-radius: 3px;">To include your live stream on your event page add <strong>[livepeer_player]</strong> anywhere on the event page.</p><?php
+});
+
 add_action( 'save_post', 'livepeer_save_postdata' );
 function livepeer_save_postdata( $post_id ) {
     // HERO BANNER
     if ( array_key_exists( 'livepeer_datepicker', $_POST ) ) 
         update_post_meta($post_id, '_livepeer_datepicker', $_POST['livepeer_datepicker'] );
 
+}
+
+add_action( 'wp_ajax_livepeer_delete_stream', 'livepeer_delete_stream');
+add_action( 'wp_ajax_nopriv_livepeer_delete_stream', 'livepeer_delete_stream');
+function livepeer_delete_stream(){
+  livepeer_portl_delete_stream();
 }

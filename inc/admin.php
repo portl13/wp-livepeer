@@ -43,9 +43,11 @@ function livepeerwp_options_page(){
     if( isset($_POST['livepeer_stream_name']) ){
       $stream_created = livepeer_portl_get_or_create_stream($_POST['livepeer_stream_name'], $recording);
     }
+    unset($_POST['livepeer_stream_name']);
     update_option( 'livepeer_wp_options', $_POST );
+
   }
-  
+
   $options = get_option( 'livepeer_wp_options' );
 
   //$user_meta = get_user_meta(get_current_user_id(), '_stream_cofig', true);
