@@ -9,15 +9,14 @@ function livepeer_rewrite_tag() {
 
 add_action( 'init',  function() {
 
-    $user_id = get_current_user_id();
+    //$user_meta = get_user_meta($user_id, '_stream_cofig', true);
+    $global_stream_config = get_option('_stream_config');
 
-    if( !$user_id ) return;
-
-    $user_meta = get_user_meta($user_id, '_stream_cofig', true);
+    if( !$global_stream_config ) return;
 
     $options = get_option('livepeer_wp_options');
 
-    add_rewrite_rule( '^channel/'.sanitize_title($options['livepeer_stream_name']), 'index.php?pagename=player&channel_id='.$user_meta->playbackId, 'top' );
+    add_rewrite_rule( '^channel/'.sanitize_title($options['livepeer_stream_name']), 'index.php?pagename=player&channel_id='.$global_stream_config->playbackId, 'top' );
 });
 
 add_filter('query_vars', function($vars) {
@@ -84,14 +83,19 @@ add_action( 'init', function() {
 add_action('wp_enqueue_scripts', function(){
   $options = get_option('livepeer_wp_options');
   $user_id = get_current_user_id();
-  $user_meta = get_user_meta($user_id, '_stream_cofig', true);
+  //$user_meta = get_user_meta($user_id, '_stream_cofig', true);
+  $global_stream_config = get_option('_stream_config');
 
-  wp_register_script('livepeer-script', plugin_dir_url(__DIR__) . '/assets/livepeer-script.js', array(), null, true);
+  if( !$global_stream_config ) return;
+
+  wp_enqueue_script('video-js', 'https://vjs.zencdn.net/7.2.3/video.js', [], null, true);
+  wp_enqueue_script('video-js-contrib', 'https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.js', [], null, true);
+  wp_register_script('livepeer-script', plugin_dir_url(__DIR__) . 'assets/livepeer-script.js', array(), null, true);
   wp_localize_script( 'livepeer-script', 'livepeer_jsobject',
     array( 
       'ajaxurl' => admin_url( 'admin-ajax.php' ),
       'api_token' => $options['LIVEPEER_API_TOKEN'],
-      'stream_id' => $user_meta->id,
+      'stream_id' => $global_stream_config->id,
     )
   );
   wp_enqueue_script('livepeer-script');

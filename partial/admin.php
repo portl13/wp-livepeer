@@ -151,7 +151,7 @@
       <!-- VIDEO CARD -->
       <div class="card">
 
-        <?php if( $user_meta ): ?>
+        <?php if( $global_stream_config ): ?>
 
           <div>
             <video style="width: 100%;" id="lpwp-video"></video>
@@ -170,7 +170,7 @@
           <p style="font-size: 1.3em;"><strong style="font-size: 1.6em;">Next Step</strong><br /> Give your LIVE stream a name <span style="font-size: 1.4em;position: relative; top: 2px;">&rarr;</span></p>
         <?php endif;?>
 
-        <?php if( $user_meta ) : ?>
+        <?php if( $global_stream_config ) : ?>
           <h2>Livepeer Stream Information</h2>
           <table>
             <tbody>
@@ -180,7 +180,7 @@
                   <label for="input-text">Stream Id</label>
                 </th>
                 <td>
-                  <?php echo $user_meta ? $user_meta->id : 'Create a Stream to get this info';?>
+                  <?php echo $global_stream_config ? $global_stream_config->id : 'Create a Stream to get this info';?>
                 </td>
               </tr>
               <tr>
@@ -188,7 +188,7 @@
                   <label for="input-text">Stream Key</label>
                 </th>
                 <td>
-                  <?php echo $user_meta ? $user_meta->streamKey : 'Create a Stream to get this info';?>
+                  <?php echo $global_stream_config ? $global_stream_config->streamKey : 'Create a Stream to get this info';?>
                 </td>
               </tr>
               <tr>
@@ -196,7 +196,7 @@
                   <label for="input-text">SRT Ingest</label>
                 </th>
                 <td>
-                  <?php echo $user_meta ? 'srt://rtmp.livepeer.com:2935?streamid='.$user_meta->streamKey : 'Create a Stream to get this info';?>
+                  <?php echo $global_stream_config ? 'srt://rtmp.livepeer.com:2935?streamid='.$global_stream_config->streamKey : 'Create a Stream to get this info';?>
                 </td>
               </tr>
               <tr>
@@ -223,28 +223,31 @@
                 <label for="input-text">Livepeer Stream Name</label>
               </th>
               <td>
-                <input type="text" name="livepeer_stream_name" placeholder="..."  value="<?php echo $options['livepeer_stream_name'];?>"><br />
+                <input type="text" name="livepeer_stream_name" placeholder="..."  value="<?php echo isset($options['livepeer_stream_name']) ? $options['livepeer_stream_name'] : '';?>"><br />
               </td>
             </tr>
-            <?php if( $user_meta ):?>
+            <?php if( $global_stream_config ):?>
               <tr>
                 <th>Channel Offline Banner</th>
                 <td>
-                  
-                    <?php $image_id = $options['rudr_img']; ?>
+                    
+                    <?php if( !isset($options['rudr_img']) ) : ?>
 
-                    <?php if( $image = wp_get_attachment_image_url( $image_id, 'medium' ) ) : ?>
-                      <a href="#" class="rudr-upload">
-                        <img src="<?php echo esc_url( $image ) ?>" />
-                      </a><br />
-                      <p><a href="#" class="rudr-remove">Remove image</a></p>
-                      <input type="hidden" name="rudr_img" value="<?php echo absint( $image_id ) ?>">
-                    <?php else: ?>
+
 
                       <a href="#" class="button rudr-upload">Upload image</a>
                       <p><a href="#" class="rudr-remove" style="display:none">Remove image</a></p>
                       <input type="hidden" name="rudr_img" value="">
+
+                    <?php else: 
+                        $image = wp_get_attachment_image_url( $options['rudr_img'], 'medium' ) ?>
+                      <a href="#" class="rudr-upload">
+                        <img src="<?php echo esc_url( $image ) ?>" />
+                      </a><br />
+                      <p><a href="#" class="rudr-remove">Remove image</a></p>
+                      <input type="hidden" name="rudr_img" value="<?php echo absint( $options['rudr_img'] ) ?>">
                     <?php endif; ?>
+                    
 
 
                 </td>
@@ -298,7 +301,7 @@
             <label for="input-text">LivePeer Api Key</label>
           </th>
           <td>
-            <input type="text" name="LIVEPEER_API_TOKEN" placeholder="..." value="<?php echo $options['LIVEPEER_API_TOKEN'];?>"><br />
+            <input type="text" name="LIVEPEER_API_TOKEN" placeholder="..." value="<?php echo isset($options['LIVEPEER_API_TOKEN']) ? $options['LIVEPEER_API_TOKEN'] : '';?>"><br />
           </td>
         </tr>
       </tbody>
@@ -362,7 +365,7 @@
       live = 1;
       button.innerText = 'Stop';
 
-      const streamKey = '<?php echo $user_meta->streamKey; ?>';
+      const streamKey = '<?php echo $global_stream_config->streamKey; ?>';
 
       if (!stream) {
         alert("Video stream not initialized yet.");

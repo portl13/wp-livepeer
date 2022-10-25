@@ -1,4 +1,5 @@
-<?php $channel_id = get_query_var('channel_id');?>
+<?php 
+$channel_id = get_query_var('channel_id');?>
 <style>
 #fluidMedia {
   position: relative;
@@ -52,5 +53,3 @@
 
 <!-- JS code -->
 <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-<script src="https://vjs.zencdn.net/7.2.3/video.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.js"></script>

@@ -9,7 +9,7 @@ function livepeerwp_viewer_shortcode( $atts = array(), $content = '' ) {
 
   if( get_current_user_id() ){
     
-    $stream_created = portl_get_or_create_stream();
+    $stream_created = livepeer_portl_get_or_create_stream();
     $options = get_option('livepeer_wp_options');
 
     ob_start();
@@ -34,15 +34,16 @@ function livepeerwp_player_shortcode( $atts = array(), $content = '' ) {
   // This is psuedo for featured image on event page
   //$image = wp_get_attachment_image_url();
 
-  if( $user_id = get_current_user_id() ){
-    $user_meta = get_user_meta($user_id, '_stream_cofig',true);
-    $stream_created = portl_get_or_create_stream();
-    $options = get_option('livepeer_wp_options');
-    ob_start();
-    include dirname(__DIR__).'/partial/player.php';
-    return ob_get_clean();
+  
+  //$user_meta = get_user_meta($user_id, '_stream_cofig',true);
+  $global_stream_config = get_option('_stream_config');
+  $stream_created = livepeer_portl_get_or_create_stream();
+  $options = get_option('livepeer_wp_options');
+  ob_start();
 
-  }
+  include dirname(__DIR__).'/partial/player.php';
+  return ob_get_clean();
+
 
 
   // do shortcode actions here

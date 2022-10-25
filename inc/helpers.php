@@ -1,6 +1,6 @@
 <?php
 
-function portl_create_stream($user_id, $stream_name = null, $recording = false){
+function livepeer_portl_create_stream($stream_name = null, $recording = false){
     
     $livepeer_wp_options = get_option('livepeer_wp_options');
 
@@ -85,6 +85,7 @@ function portl_create_stream($user_id, $stream_name = null, $recording = false){
 
     ]);
 
+
     $api_body = wp_remote_retrieve_body($api_response);
 
     if (empty($api_body)) {
@@ -98,15 +99,8 @@ function portl_create_stream($user_id, $stream_name = null, $recording = false){
         ];
 
     }
-
-    $update_success = update_user_meta(
-        
-        $user_id,
-        
-        "_stream_cofig",
-        
-        json_decode($api_body)
-    );
+    $update_success = update_option('_stream_config', json_decode($api_body));
+    //$update_success = update_user_meta($user_id, "_stream_cofig", json_decode($api_body) );
 
     if (!$update_success) {
 
@@ -122,7 +116,7 @@ function portl_create_stream($user_id, $stream_name = null, $recording = false){
     return json_decode($api_body);
 }
 
-function portl_verify_stream($stream_id){
+function livepeer_portl_verify_stream($stream_id){
     
     $livepeer_wp_options = get_option('livepeer_wp_options');
     
@@ -143,7 +137,7 @@ function portl_verify_stream($stream_id){
     return $status_code;
 }
 
-function portl_created_stream_status_reponse($code, $response){
+function livepeer_portl_created_stream_status_reponse($code, $response){
 
     if (!empty($code['code']) && $code['code'] === 'has_no_channel_created') {
         
@@ -203,38 +197,39 @@ function portl_created_stream_status_reponse($code, $response){
     }
 }
 
-function portl_get_or_create_stream($stream_name = null, $recording = false) {
+function livepeer_portl_get_or_create_stream($stream_name = null, $recording = false) {
     
     $user_id = get_current_user_id();
 
-    $user_meta = get_user_meta($user_id, "_stream_cofig", true);
+    //$user_meta = get_user_meta($user_id, "_stream_cofig", true);
+    $global_stream_config = get_option('_stream_config');
 
-    $stream_id = $user_meta->id;
+    if (empty($global_stream_config)) {
 
-    if (empty($user_meta)) {
-
-        $stream_created = portl_create_stream($user_id, $stream_name, $recording);
+        $stream_created = livepeer_portl_create_stream($stream_name, $recording);
         
         return $stream_created;
     }
 
-    $status_code = portl_verify_stream($stream_id);
+    $stream_id = $global_stream_config->id;
+
+    $status_code = livepeer_portl_verify_stream($stream_id);
 
     if ($status_code === 200) {
         
-        portl_set_recording_stream_status($stream_id, $recording);
+        livepeer_portl_set_recording_stream_status($stream_id, $recording);
 
-        return $user_meta;
+        return $global_stream_config;
 
     } else {
 
-        $stream_created = portl_create_stream($user_id, $stream_name);
+        $stream_created = livepeer_portl_create_stream($stream_name);
         
         return $stream_created;
     }
 }
 
-function portl_set_recording_stream_status($stream_id, $recording = false){
+function livepeer_portl_set_recording_stream_status($stream_id, $recording = false){
 
     $livepeer_wp_options = get_option('livepeer_wp_options');
     
@@ -263,15 +258,16 @@ function portl_set_recording_stream_status($stream_id, $recording = false){
     return $status_code;
 }
 
-function portl_get_recording_stream_status(){
+function livepeer_portl_get_recording_stream_status(){
 
     $user_id = get_current_user_id();
     
     $livepeer_wp_options = get_option('livepeer_wp_options');
     
-    $user_meta = get_user_meta($user_id, "_stream_cofig", true);
+    //$user_meta = get_user_meta($user_id, "_stream_cofig", true);
+    $global_stream_config = get_option("_stream_config");
 
-    $stream_id = $user_meta->id;
+    $stream_id = $global_stream_config->id;
     
     $api_response = wp_remote_get('https://livepeer.studio/api/stream/' . $stream_id, [
     
