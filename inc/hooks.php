@@ -9,6 +9,8 @@ function livepeer_rewrite_tag() {
 
 add_action( 'init',  function() {
 
+  global $wp_rewrite;
+
     //$user_meta = get_user_meta($user_id, '_stream_cofig', true);
     $global_stream_config = get_option('_stream_config');
 

@@ -25,9 +25,12 @@ function livepeerwp_viewer_shortcode( $atts = array(), $content = '' ) {
 add_shortcode( 'livepeer_player', 'livepeerwp_player_shortcode' );
 function livepeerwp_player_shortcode( $atts = array(), $content = '' ) {
 
+  $global_stream_config = get_option('_stream_config');
+
   $atts = shortcode_atts( array(
-    'id' => 'value',
+    'channel_id' => $global_stream_config->playbackId,
   ), $atts, 'livepeer_player' );
+
 
   global $post;
   // TODO

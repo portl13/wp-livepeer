@@ -1,5 +1,11 @@
 <?php 
-$channel_id = get_query_var('channel_id');?>
+
+if( !strlen( get_query_var('channel_id')) ){
+  $channel_id = $atts['channel_id'];
+} else {
+  $channel_id = get_query_var('channel_id');
+}
+?>
 <style>
 #fluidMedia {
   position: relative;
@@ -37,14 +43,14 @@ $channel_id = get_query_var('channel_id');?>
   //} // event page psuedo
 ?>
 
-                        
+
 <!-- HTML -->
 <div id="fluidMedia">
   <div id="cover-image" style="display: none;">
       <img src="<?php echo esc_url( $image ) ?>" alt="<?php echo $options['livepeer_stream_name']?> Offline Banner" />
   </div>
   <div id="video-container" style="display: none;">
-    <video id='hls-example' class="video-js vjs-default-skin" poster="<?php echo $options['rudr_img']?>" controls> 
+    <video id='hls-example' class="video-js vjs-default-skin" poster="<?php echo esc_url( $image ) ?>" controls> 
       <source src="https://livepeercdn.com/hls/<?php echo $channel_id; ?>/index.m3u8" type="application/x-mpegURL">
     </video>
   </div>

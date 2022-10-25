@@ -2,7 +2,7 @@
 Author URI: https://portl.com
 Plugin URI: https://github.com/portl13/wp-livepeer
 Donate link: 
-Contributors: Hosni, Earthjeffone, Portl13 
+Contributors: Hosni, Earthjeffone, Portl13, jacobrossdev
 Tags: Live Video, 
 Requires at least: 
 Tested up to: 
@@ -20,6 +20,7 @@ LivePeer provides an API that allows anyone in the world to go live, using a net
 == Frequently Asked Questions ==
 
 How can I signup for a LivePeer account?
+In order to start streaming LIVE to your WordPress website, you'll need to create an account with Livepeer Studio at https://livepeer.studio/
 
 How do I change configurations and uttilize the plugin?
 
@@ -40,6 +41,14 @@ An answer to that question.
 4. Click on `Activate plugin`
 
 == Changelog ==
+
+= 1.1.1: October 24, 2022
+* bug fixes
+* plugin is single stream only
+
+= 1.1.0: September 20, 2022
+* made functional
+* added videoJS as HLS video container
 
 = .5: May 12, 2022 =
 * Birthday of WP Live Peer
