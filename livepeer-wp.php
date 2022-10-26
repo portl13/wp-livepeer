@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Livepeer WP
  * Description:       This is the alpha version of the Livepeer Wordpress plugin
- * Version:           1.1.1
+ * Version:           1.2.1
  * Requires at least: 6.0
  * Requires PHP:      7.2
  * Author:            PORTL
